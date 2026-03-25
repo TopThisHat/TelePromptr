@@ -1,1 +1,437 @@
 @import 'tailwindcss';
+@import '@fontsource-variable/inter';
+@import '@fontsource-variable/jetbrains-mono';
+
+/* ============================================================================
+ * Tailwind v4 Custom Dark Mode Variant
+ * Class-based dark mode: toggled by adding .dark to <html>
+ * ============================================================================ */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ============================================================================
+ * Design Tokens (@theme)
+ * Tailwind v4 @theme block defines CSS custom properties that become
+ * available as utility classes (e.g., bg-primary, text-surface-foreground).
+ * ============================================================================ */
+@theme {
+	/* -- Brand Colors -------------------------------------------------------- */
+	--color-primary: oklch(0.5 0.18 264);
+	--color-primary-hover: oklch(0.45 0.2 264);
+	--color-primary-light: oklch(0.92 0.05 264);
+	--color-primary-foreground: oklch(0.98 0 0);
+
+	--color-secondary: oklch(0.55 0.2 293);
+	--color-secondary-hover: oklch(0.5 0.22 293);
+	--color-secondary-light: oklch(0.92 0.05 293);
+	--color-secondary-foreground: oklch(0.98 0 0);
+
+	/* -- Semantic Colors ----------------------------------------------------- */
+	--color-success: oklch(0.55 0.16 155);
+	--color-success-light: oklch(0.92 0.05 155);
+	--color-success-foreground: oklch(0.98 0 0);
+
+	--color-warning: oklch(0.7 0.16 75);
+	--color-warning-light: oklch(0.92 0.06 75);
+	--color-warning-foreground: oklch(0.25 0.02 75);
+
+	--color-error: oklch(0.55 0.2 25);
+	--color-error-light: oklch(0.92 0.05 25);
+	--color-error-foreground: oklch(0.98 0 0);
+
+	--color-info: oklch(0.55 0.15 240);
+	--color-info-light: oklch(0.92 0.04 240);
+	--color-info-foreground: oklch(0.98 0 0);
+
+	/* -- Neutral Gray Scale -------------------------------------------------- */
+	--color-neutral-50: oklch(0.985 0 0);
+	--color-neutral-100: oklch(0.97 0 0);
+	--color-neutral-200: oklch(0.92 0 0);
+	--color-neutral-300: oklch(0.87 0 0);
+	--color-neutral-400: oklch(0.7 0 0);
+	--color-neutral-500: oklch(0.55 0 0);
+	--color-neutral-600: oklch(0.45 0 0);
+	--color-neutral-700: oklch(0.37 0 0);
+	--color-neutral-800: oklch(0.27 0 0);
+	--color-neutral-900: oklch(0.2 0 0);
+	--color-neutral-950: oklch(0.14 0 0);
+
+	/* -- Surface Colors (light mode defaults, dark overrides below) ---------- */
+	--color-surface: oklch(0.985 0 0);
+	--color-surface-foreground: oklch(0.15 0 0);
+	--color-surface-muted: oklch(0.55 0 0);
+
+	--color-surface-card: oklch(1 0 0);
+	--color-surface-card-foreground: oklch(0.15 0 0);
+
+	--color-surface-sidebar: oklch(0.975 0.005 264);
+	--color-surface-sidebar-foreground: oklch(0.25 0 0);
+
+	--color-surface-header: oklch(1 0 0 / 0.85);
+	--color-surface-header-foreground: oklch(0.15 0 0);
+
+	--color-surface-elevated: oklch(1 0 0);
+
+	--color-surface-border: oklch(0.9 0 0);
+	--color-surface-border-strong: oklch(0.82 0 0);
+
+	--color-surface-input: oklch(1 0 0);
+	--color-surface-ring: oklch(0.5 0.18 264);
+
+	/* -- Data Visualization Palette ------------------------------------------ */
+	--color-viz-1: oklch(0.55 0.18 264);
+	--color-viz-2: oklch(0.6 0.2 293);
+	--color-viz-3: oklch(0.65 0.18 170);
+	--color-viz-4: oklch(0.7 0.16 75);
+	--color-viz-5: oklch(0.55 0.2 25);
+	--color-viz-6: oklch(0.6 0.15 340);
+	--color-viz-7: oklch(0.58 0.14 200);
+	--color-viz-8: oklch(0.65 0.12 130);
+	--color-viz-9: oklch(0.5 0.16 310);
+	--color-viz-10: oklch(0.62 0.1 50);
+
+	/* -- Typography ---------------------------------------------------------- */
+	--font-sans: 'Inter Variable', 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+	--font-mono: 'JetBrains Mono Variable', 'JetBrains Mono', ui-monospace, 'Cascadia Code',
+		'Fira Code', monospace;
+
+	/* -- Type Scale ---------------------------------------------------------- */
+	--text-display: 2.25rem;
+	--text-display--line-height: 2.5rem;
+	--text-display--letter-spacing: -0.025em;
+	--text-display--font-weight: 700;
+
+	--text-h1: 1.875rem;
+	--text-h1--line-height: 2.25rem;
+	--text-h1--letter-spacing: -0.025em;
+	--text-h1--font-weight: 700;
+
+	--text-h2: 1.5rem;
+	--text-h2--line-height: 2rem;
+	--text-h2--letter-spacing: -0.02em;
+	--text-h2--font-weight: 600;
+
+	--text-h3: 1.25rem;
+	--text-h3--line-height: 1.75rem;
+	--text-h3--letter-spacing: -0.01em;
+	--text-h3--font-weight: 600;
+
+	--text-body: 0.875rem;
+	--text-body--line-height: 1.25rem;
+
+	--text-sm: 0.8125rem;
+	--text-sm--line-height: 1.125rem;
+
+	--text-caption: 0.75rem;
+	--text-caption--line-height: 1rem;
+
+	--text-code: 0.8125rem;
+	--text-code--line-height: 1.25rem;
+
+	/* -- Spacing / Layout ---------------------------------------------------- */
+	--spacing-sidebar: 15rem;
+	--spacing-sidebar-collapsed: 4rem;
+	--spacing-header: 3.5rem;
+	--spacing-content: 1.5rem;
+	--spacing-card: 1.25rem;
+
+	/* -- Border Radius ------------------------------------------------------- */
+	--radius-sm: 0.25rem;
+	--radius-md: 0.375rem;
+	--radius-lg: 0.5rem;
+	--radius-xl: 0.75rem;
+	--radius-full: 9999px;
+
+	/* -- Shadows ------------------------------------------------------------- */
+	--shadow-sm: 0 1px 2px 0 oklch(0 0 0 / 0.04);
+	--shadow-md: 0 4px 6px -1px oklch(0 0 0 / 0.07), 0 2px 4px -2px oklch(0 0 0 / 0.05);
+	--shadow-lg: 0 10px 15px -3px oklch(0 0 0 / 0.08), 0 4px 6px -4px oklch(0 0 0 / 0.04);
+
+	/* -- Z-Index Scale ------------------------------------------------------- */
+	--z-sidebar: 40;
+	--z-header: 45;
+	--z-dropdown: 50;
+	--z-modal-backdrop: 60;
+	--z-modal: 70;
+	--z-tooltip: 80;
+	--z-toast: 90;
+
+	/* -- Transitions --------------------------------------------------------- */
+	--transition-fast: 100ms;
+	--transition-base: 150ms;
+	--transition-slow: 250ms;
+	--ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+	--ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ============================================================================
+ * Dark Mode Token Overrides
+ * Applied when .dark class is present on <html>.
+ * ============================================================================ */
+.dark {
+	--color-primary: oklch(0.65 0.18 264);
+	--color-primary-hover: oklch(0.7 0.2 264);
+	--color-primary-light: oklch(0.25 0.08 264);
+
+	--color-secondary: oklch(0.68 0.2 293);
+	--color-secondary-hover: oklch(0.73 0.22 293);
+	--color-secondary-light: oklch(0.25 0.08 293);
+
+	--color-success: oklch(0.65 0.16 155);
+	--color-success-light: oklch(0.25 0.06 155);
+
+	--color-warning: oklch(0.75 0.16 75);
+	--color-warning-light: oklch(0.28 0.06 75);
+	--color-warning-foreground: oklch(0.98 0 0);
+
+	--color-error: oklch(0.65 0.2 25);
+	--color-error-light: oklch(0.25 0.08 25);
+
+	--color-info: oklch(0.65 0.15 240);
+	--color-info-light: oklch(0.25 0.06 240);
+
+	--color-surface: oklch(0.14 0.005 264);
+	--color-surface-foreground: oklch(0.93 0 0);
+	--color-surface-muted: oklch(0.55 0 0);
+
+	--color-surface-card: oklch(0.19 0.008 264);
+	--color-surface-card-foreground: oklch(0.93 0 0);
+
+	--color-surface-sidebar: oklch(0.16 0.01 264);
+	--color-surface-sidebar-foreground: oklch(0.85 0 0);
+
+	--color-surface-header: oklch(0.16 0.008 264 / 0.9);
+	--color-surface-header-foreground: oklch(0.93 0 0);
+
+	--color-surface-elevated: oklch(0.22 0.01 264);
+
+	--color-surface-border: oklch(0.26 0.01 264);
+	--color-surface-border-strong: oklch(0.35 0.01 264);
+
+	--color-surface-input: oklch(0.2 0.01 264);
+	--color-surface-ring: oklch(0.65 0.18 264);
+
+	--shadow-sm: 0 1px 2px 0 oklch(0 0 0 / 0.2);
+	--shadow-md: 0 4px 6px -1px oklch(0 0 0 / 0.3), 0 2px 4px -2px oklch(0 0 0 / 0.2);
+	--shadow-lg: 0 10px 15px -3px oklch(0 0 0 / 0.35), 0 4px 6px -4px oklch(0 0 0 / 0.2);
+
+	/* Brighten viz colors for dark backgrounds */
+	--color-viz-1: oklch(0.68 0.18 264);
+	--color-viz-2: oklch(0.72 0.2 293);
+	--color-viz-3: oklch(0.72 0.18 170);
+	--color-viz-4: oklch(0.78 0.16 75);
+	--color-viz-5: oklch(0.68 0.2 25);
+	--color-viz-6: oklch(0.72 0.15 340);
+	--color-viz-7: oklch(0.7 0.14 200);
+	--color-viz-8: oklch(0.75 0.12 130);
+	--color-viz-9: oklch(0.65 0.16 310);
+	--color-viz-10: oklch(0.72 0.1 50);
+}
+
+/* ============================================================================
+ * Base Layer
+ * Global defaults, resets, scrollbar styling, selection colors, etc.
+ * ============================================================================ */
+@layer base {
+	html {
+		font-family: var(--font-sans);
+		font-size: 14px;
+		line-height: 1.5;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+		font-feature-settings: 'cv11', 'ss01';
+		font-variant-numeric: tabular-nums;
+		scroll-behavior: smooth;
+		text-rendering: optimizeLegibility;
+	}
+
+	body {
+		background-color: var(--color-surface);
+		color: var(--color-surface-foreground);
+	}
+
+	/* -- Smooth scrolling with reduced-motion override ---------------------- */
+	@media (prefers-reduced-motion: reduce) {
+		html {
+			scroll-behavior: auto;
+		}
+
+		*,
+		*::before,
+		*::after {
+			animation-duration: 0.01ms !important;
+			animation-iteration-count: 1 !important;
+			transition-duration: 0.01ms !important;
+			scroll-behavior: auto !important;
+		}
+	}
+
+	/* -- Focus-visible styles ----------------------------------------------- */
+	:focus-visible {
+		outline: 2px solid var(--color-surface-ring);
+		outline-offset: 2px;
+	}
+
+	:focus:not(:focus-visible) {
+		outline: none;
+	}
+
+	/* -- Text selection colors ---------------------------------------------- */
+	::selection {
+		background-color: oklch(0.5 0.18 264 / 0.25);
+		color: var(--color-surface-foreground);
+	}
+
+	.dark ::selection {
+		background-color: oklch(0.65 0.18 264 / 0.3);
+	}
+
+	/* -- Scrollbar styling -------------------------------------------------- */
+	* {
+		scrollbar-width: thin;
+		scrollbar-color: var(--color-neutral-300) transparent;
+	}
+
+	.dark * {
+		scrollbar-color: oklch(0.3 0.01 264) transparent;
+	}
+
+	*::-webkit-scrollbar {
+		width: 6px;
+		height: 6px;
+	}
+
+	*::-webkit-scrollbar-track {
+		background: transparent;
+	}
+
+	*::-webkit-scrollbar-thumb {
+		background-color: var(--color-neutral-300);
+		border-radius: var(--radius-full);
+	}
+
+	.dark *::-webkit-scrollbar-thumb {
+		background-color: oklch(0.3 0.01 264);
+	}
+
+	*::-webkit-scrollbar-thumb:hover {
+		background-color: var(--color-neutral-400);
+	}
+
+	.dark *::-webkit-scrollbar-thumb:hover {
+		background-color: oklch(0.4 0.01 264);
+	}
+
+	/* -- Headings ----------------------------------------------------------- */
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
+		font-weight: 600;
+		letter-spacing: -0.01em;
+		text-wrap: balance;
+	}
+
+	/* -- Code block defaults ------------------------------------------------ */
+	code {
+		font-family: var(--font-mono);
+		font-size: var(--text-code);
+		line-height: var(--text-code--line-height);
+		background-color: var(--color-neutral-100);
+		padding: 0.125rem 0.375rem;
+		border-radius: var(--radius-sm);
+	}
+
+	.dark code {
+		background-color: oklch(0.22 0.01 264);
+	}
+
+	pre {
+		font-family: var(--font-mono);
+		font-size: var(--text-code);
+		line-height: var(--text-code--line-height);
+		background-color: var(--color-neutral-100);
+		padding: 1rem;
+		border-radius: var(--radius-lg);
+		overflow-x: auto;
+	}
+
+	.dark pre {
+		background-color: oklch(0.16 0.01 264);
+	}
+
+	pre code {
+		background-color: transparent;
+		padding: 0;
+		border-radius: 0;
+	}
+
+	/* -- Table defaults ----------------------------------------------------- */
+	table {
+		border-collapse: collapse;
+		width: 100%;
+	}
+
+	th,
+	td {
+		padding: 0.5rem 0.75rem;
+		text-align: left;
+		border-bottom: 1px solid var(--color-surface-border);
+	}
+
+	th {
+		font-weight: 600;
+		font-size: var(--text-sm);
+		color: var(--color-surface-muted);
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
+	}
+
+	/* -- Interactive element transitions ------------------------------------ */
+	a,
+	button,
+	input,
+	select,
+	textarea,
+	[role='button'],
+	[role='tab'],
+	[role='menuitem'] {
+		transition-property: color, background-color, border-color, box-shadow, opacity;
+		transition-duration: var(--transition-base);
+		transition-timing-function: var(--ease-in-out);
+	}
+
+	/* -- Skip-to-content link ----------------------------------------------- */
+	.skip-to-content {
+		position: fixed;
+		top: 0.5rem;
+		left: 0.5rem;
+		z-index: 100;
+		padding: 0.5rem 1rem;
+		font-size: var(--text-sm);
+		font-weight: 600;
+		color: var(--color-primary-foreground);
+		background-color: var(--color-primary);
+		border-radius: var(--radius-md);
+		transform: translateY(-200%);
+		transition: transform var(--transition-base) var(--ease-out);
+	}
+
+	.skip-to-content:focus {
+		transform: translateY(0);
+	}
+
+	/* -- Live region for screen reader announcements ------------------------- */
+	.sr-live-region {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		padding: 0;
+		margin: -1px;
+		overflow: hidden;
+		clip: rect(0, 0, 0, 0);
+		white-space: nowrap;
+		border-width: 0;
+	}
+}
