@@ -28,7 +28,7 @@ dev:
 
 # Run the Go API in development mode with live reload.
 dev-api:
-    cd apps/api && go run .
+    cd apps/api && go run ./cmd/server
 
 # Run the SvelteKit frontend dev server.
 dev-web:
@@ -43,7 +43,7 @@ build: build-api build-web
 
 # Build the Go API binary.
 build-api:
-    cd apps/api && go build -o ../../dist/api .
+    cd apps/api && go build -o ../../dist/api ./cmd/server
 
 # Build the SvelteKit frontend for production.
 build-web:
@@ -60,9 +60,9 @@ test: test-api test-web
 test-api:
     cd apps/api && go test -race -cover ./...
 
-# Run Svelte/JS tests.
+# Run Svelte type checks and tests.
 test-web:
-    cd apps/web && npm test
+    cd apps/web && npm run check
 
 # -----------------------------------------------------------------------------
 # Lint & Format
@@ -75,9 +75,9 @@ lint: lint-api lint-web
 lint-api:
     cd apps/api && go vet ./...
 
-# Run ESLint on the web frontend.
+# Run svelte-check on the web frontend.
 lint-web:
-    cd apps/web && npm run lint
+    cd apps/web && npm run check
 
 # Format Go source files.
 fmt:
