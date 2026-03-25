@@ -13,12 +13,12 @@ import (
 
 // Default values for optional configuration settings.
 const (
-	DefaultHTTPPort    = 8080
-	DefaultGRPCPort    = 4317
-	DefaultOTLPHTTP    = 4318
-	DefaultBufferSize  = 1024
-	DefaultBatchSize   = 100
-	DefaultFlushMS     = 5000
+	DefaultHTTPPort     = 8080
+	DefaultGRPCPort     = 4317
+	DefaultOTLPHTTP     = 4318
+	DefaultBufferSize   = 1024
+	DefaultBatchSize    = 100
+	DefaultFlushMS      = 5000
 	MinEncryptionKeyLen = 32
 )
 
