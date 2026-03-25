@@ -1,0 +1,35 @@
+# VCS
+.git
+.gitignore
+
+# IDE / Editor
+.vscode
+.idea
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Dependencies (will be installed fresh inside the container)
+node_modules
+
+# Build artifacts (will be built fresh inside the container)
+build
+.svelte-kit
+dist
+.output
+
+# Docker
+Dockerfile
+.dockerignore
+docker-compose*.yml
+
+# Environment
+.env
+.env.*
+
+# Tests / Coverage
+coverage
+*.lcov
