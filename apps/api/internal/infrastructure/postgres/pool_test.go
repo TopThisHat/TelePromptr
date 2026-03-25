@@ -10,11 +10,11 @@ func TestConfig_defaults(t *testing.T) {
 	t.Parallel()
 
 	tests := []struct {
-		name     string
-		input    Config
-		wantMin  int32
-		wantMax  int32
-		wantHP   time.Duration
+		name    string
+		input   Config
+		wantMin int32
+		wantMax int32
+		wantHP  time.Duration
 	}{
 		{
 			name:    "all zero values get defaults",
