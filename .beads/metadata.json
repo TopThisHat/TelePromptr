@@ -1,0 +1,7 @@
+{
+  "database": "dolt",
+  "backend": "dolt",
+  "dolt_mode": "server",
+  "dolt_database": "TelePromptr",
+  "project_id": "af8aac12-fc62-44fc-80f0-2d77dfe43be3"
+}
