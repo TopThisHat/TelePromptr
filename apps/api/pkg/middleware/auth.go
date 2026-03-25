@@ -5,6 +5,7 @@ import (
 	"crypto/sha256"
 	"crypto/subtle"
 	"encoding/hex"
+	"encoding/json"
 	"net/http"
 	"strings"
 )
@@ -146,8 +147,18 @@ func extractBearerToken(header string) (string, bool) {
 }
 
 // writeAuthError writes a 401 Unauthorized JSON error response.
+// It uses json.Marshal to safely encode the message string, preventing
+// JSON injection if a caller ever passes dynamic content.
 func writeAuthError(w http.ResponseWriter, message string) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusUnauthorized)
-	w.Write([]byte(`{"error":{"code":"unauthorized","message":"` + message + `"}}`)) //nolint:errcheck
+	resp := struct {
+		Error struct {
+			Code    string `json:"code"`
+			Message string `json:"message"`
+		} `json:"error"`
+	}{}
+	resp.Error.Code = "unauthorized"
+	resp.Error.Message = message
+	json.NewEncoder(w).Encode(resp) //nolint:errcheck
 }
