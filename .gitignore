@@ -1,4 +1,68 @@
+# ======================
+# Go
+# ======================
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+vendor/
+coverage.out
+coverage.html
 
-# Dolt database files (added by bd init)
+# ======================
+# Node.js / SvelteKit
+# ======================
+node_modules/
+.svelte-kit/
+build/
+dist/
+.output/
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
+.pnpm-store/
+
+# ======================
+# Environment & secrets
+# ======================
+.env
+.env.*
+!.env.example
+
+# ======================
+# IDE / Editor
+# ======================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+*.sublime-project
+*.sublime-workspace
+
+# ======================
+# OS
+# ======================
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# ======================
+# Docker
+# ======================
+docker-compose.override.yml
+
+# ======================
+# Database (Dolt / SQLite)
+# ======================
 .dolt/
 *.db
+
+# ======================
+# Build / Temp
+# ======================
+tmp/
+*.log
