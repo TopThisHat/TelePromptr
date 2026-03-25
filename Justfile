@@ -87,9 +87,20 @@ fmt:
 # Database
 # -----------------------------------------------------------------------------
 
-# Run database migrations (placeholder -- tooling TBD).
+# Default database URL for local development.
+db_url := env("DATABASE_URL", "postgres://telepromptr:telepromptr@localhost:5432/telepromptr?sslmode=disable")
+
+# Apply all pending database migrations.
 migrate:
-    @echo "TODO: run database migrations (goose, atlas, or similar)"
+    cd apps/api && go run ./cmd/migrate -dir migrations -url "{{db_url}}"
+
+# Roll back all database migrations (destructive!).
+migrate-down:
+    cd apps/api && go run ./cmd/migrate -dir migrations -url "{{db_url}}" -down
+
+# Show current migration version.
+migrate-version:
+    cd apps/api && go run ./cmd/migrate -dir migrations -url "{{db_url}}" -version
 
 # -----------------------------------------------------------------------------
 # Docker
