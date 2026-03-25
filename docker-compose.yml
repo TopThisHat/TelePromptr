@@ -1,0 +1,87 @@
+# =============================================================================
+# TelePromptr Docker Compose
+# =============================================================================
+# Local development stack for the TelePromptr LLM telemetry platform.
+#
+# Usage:
+#   docker compose up -d          Start all services
+#   docker compose down            Stop all services
+#   docker compose down -v         Stop and remove volumes (fresh start)
+#   docker compose logs -f api     Follow API logs
+#
+# Ports:
+#   5432  - PostgreSQL
+#   8080  - Go API (REST/HTTP)
+#   4317  - OpenTelemetry Collector (OTLP gRPC)
+#   4318  - OpenTelemetry Collector (OTLP HTTP)
+#   5173  - SvelteKit dev server
+# =============================================================================
+
+services:
+  # ---------------------------------------------------------------------------
+  # PostgreSQL 17 - Primary data store
+  # ---------------------------------------------------------------------------
+  postgres:
+    image: postgres:17
+    container_name: telepromptr-postgres
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: telepromptr
+      POSTGRES_USER: telepromptr
+      POSTGRES_PASSWORD: telepromptr
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U telepromptr -d telepromptr"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  # ---------------------------------------------------------------------------
+  # Go API - Backend service
+  # ---------------------------------------------------------------------------
+  # Ports:
+  #   8080 - REST API
+  #   4317 - OTLP gRPC ingest (OpenTelemetry traces/metrics)
+  #   4318 - OTLP HTTP ingest (OpenTelemetry traces/metrics)
+  api:
+    build: ./apps/api
+    container_name: telepromptr-api
+    restart: unless-stopped
+    ports:
+      - "8080:8080"   # REST API
+      - "4317:4317"   # OTLP gRPC
+      - "4318:4318"   # OTLP HTTP
+    environment:
+      DATABASE_URL: postgres://telepromptr:telepromptr@postgres:5432/telepromptr?sslmode=disable
+      TELEPROMPTR_ADMIN_TOKEN: dev-admin-token
+      TELEPROMPTR_ENCRYPTION_KEY: dev-encryption-key-min-32-bytes!!
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  # ---------------------------------------------------------------------------
+  # SvelteKit Web - Frontend
+  # ---------------------------------------------------------------------------
+  web:
+    build: ./apps/web
+    container_name: telepromptr-web
+    restart: unless-stopped
+    ports:
+      - "5173:5173"
+    environment:
+      API_URL: http://api:8080
+      ADMIN_TOKEN: dev-admin-token
+    depends_on:
+      - api
+
+# =============================================================================
+# Named Volumes
+# =============================================================================
+# postgres_data - Persists PostgreSQL data across container restarts.
+#                 Use `docker compose down -v` to destroy and start fresh.
+volumes:
+  postgres_data:
